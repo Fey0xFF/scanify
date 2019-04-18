@@ -4,6 +4,8 @@ import './App.css';
 import Title from './components/Title';
 import ScannerForm from './components/ScannerForm';
 import Report from './components/Report';
+import ReportItem from './components/ReportItem';
+import { SyncBailHook } from 'tapable';
 
 class App extends Component {
 
@@ -13,7 +15,7 @@ class App extends Component {
     this.state = {
       input: '',
       inputURL: '',
-      vtData: {}
+      vtData: []
     }
   }
 
@@ -36,9 +38,14 @@ class App extends Component {
         })
       })
       .then(response => response.json())
-      .then(data => console.log(data))
+      .then(data => this.setState({ vtData: data.scans }))
       .catch(err => console.log(err));
-      
+  }
+
+  consoleVT = (e) => {
+    const scanData = this.state.vtData;
+    console.log(Object.keys(scanData).length)
+    console.log(scanData)
   }
 
 
@@ -47,9 +54,10 @@ class App extends Component {
       <div>
         <Title />
         <ScannerForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
-        <h1>{`${this.state.inputURL}`}</h1>
         <div>
-          <Report />
+          <button onClick={ this.consoleVT }>check VT</button>
+          <Report vtData={this.state.vtData}/>
+
         </div>
       </div>
 
@@ -57,7 +65,6 @@ class App extends Component {
   }
 }
 
-// URL
 // Container
   // Report
   // Data viz

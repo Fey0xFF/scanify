@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
+import ReportItem from './ReportItem';
 
 const Report = ({ vtData }) => {
 
-    if (Object.keys(vtData).length > 0) {
+    if (vtData.length > 0) {
         return (
-            <div>full!</div>
+            <div>
+                {
+                    vtData.map(item => {
+                        return(
+                            <ReportItem item={item} />
+                        )
+                    })
+                }
+            </div>
         )
     } else {
         return (

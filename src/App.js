@@ -38,14 +38,14 @@ class App extends Component {
         })
       })
       .then(response => response.json())
-      .then(data => this.setState({ vtData: data.scans }))
+      .then(data => this.setState({ vtData: Object.entries(data.scans) }))
       .catch(err => console.log(err));
+
+
   }
 
   consoleVT = (e) => {
-    const scanData = this.state.vtData;
-    console.log(Object.keys(scanData).length)
-    console.log(scanData)
+    console.log(this.state.vtData);
   }
 
 

@@ -72,10 +72,14 @@ class App extends Component {
     return (
       <div>
         <Title />
-        <ScannerForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
+        <ScannerForm 
+          
+          onInputChange={this.onInputChange} 
+          onButtonSubmit={this.onButtonSubmit}
+          accountChange={this.accountChange}
+          checkAccount={this.checkAccount}/>
         <div>
-          <input type="text" onChange={this.accountChange}></input>
-          <button onClick={this.checkAccount}>Account</button>
+          
         </div>
         <div>
           <button onClick={ this.consoleVT }>check VT</button>
@@ -88,6 +92,8 @@ class App extends Component {
 }
 
 // Container
+  // File Upload
+  // Password Check
   // Report
   // Data viz
 

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Title from './components/Title';
 import ScannerForm from './components/ScannerForm';
 import Report from './components/Report';
-import ReportItem from './components/ReportItem';
-import { SyncBailHook } from 'tapable';
+// import ReportItem from './components/ReportItem';
+// import { SyncBailHook } from 'tapable';
 
 class App extends Component {
 
@@ -15,7 +14,8 @@ class App extends Component {
     this.state = {
       input: '',
       inputURL: '',
-      vtData: []
+      vtData: [],
+      email: ''
     }
   }
 
@@ -40,8 +40,27 @@ class App extends Component {
       .then(response => response.json())
       .then(data => this.setState({ vtData: Object.entries(data.scans) }))
       .catch(err => console.log(err));
+  }
 
+  checkAccount = () => {
+    
+    fetch('http://localhost:3000/emailcheck', {
+      method: 'post',
+      headers: {
+        'Content-type': 'application/JSON'
+      },
+      body: JSON.stringify({
+        input: this.state.email
+      })
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(err => console.log(err));
+  }
 
+  accountChange = (e) => {
+    this.setState({email: e.target.value })
+    
   }
 
   consoleVT = (e) => {
@@ -55,9 +74,12 @@ class App extends Component {
         <Title />
         <ScannerForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>
         <div>
+          <input type="text" onChange={this.accountChange}></input>
+          <button onClick={this.checkAccount}>Account</button>
+        </div>
+        <div>
           <button onClick={ this.consoleVT }>check VT</button>
           <Report vtData={this.state.vtData}/>
-
         </div>
       </div>
 

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import ReportItem from './ReportItem';
 
-const Report = ({ vtData }) => {
+const Report = ({ vtData, emailData, reportState }) => {
 
-    if (vtData.length > 0) {
+    if (vtData.length > 0 && reportState ==='url') {
         return (
             <div>
                 {
@@ -13,6 +13,12 @@ const Report = ({ vtData }) => {
                         )
                     })
                 }
+            </div>
+        )
+    } else if (emailData.length > 0 && reportState === 'email') {
+        return (
+            <div>
+                email 
             </div>
         )
     } else {

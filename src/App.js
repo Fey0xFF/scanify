@@ -15,7 +15,9 @@ class App extends Component {
       input: '',
       inputURL: '',
       vtData: [],
-      email: ''
+      email: '',
+      emailData: [],
+      reportState: ''
     }
   }
 
@@ -40,6 +42,7 @@ class App extends Component {
       .then(response => response.json())
       .then(data => this.setState({ vtData: Object.entries(data.scans) }))
       .catch(err => console.log(err));
+      this.setState({ reportState: 'url' })
   }
 
   checkAccount = () => {
@@ -54,8 +57,9 @@ class App extends Component {
       })
     })
     .then(response => response.json())
-    .then(data => console.log(data))
+    .then(data => console.log(this.setState({ emailData: data })))
     .catch(err => console.log(err));
+    this.setState({ reportState: 'email' })
   }
 
   accountChange = (e) => {
@@ -64,7 +68,7 @@ class App extends Component {
   }
 
   consoleVT = (e) => {
-    console.log(this.state.vtData);
+    console.log(this.state.reportState);
   }
 
 
@@ -83,7 +87,7 @@ class App extends Component {
         </div>
         <div>
           <button onClick={ this.consoleVT }>check VT</button>
-          <Report vtData={this.state.vtData}/>
+          <Report vtData={this.state.vtData} emailData={this.state.emailData} reportState={this.state.reportState}/>
         </div>
       </div>
 

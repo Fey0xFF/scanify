@@ -30,7 +30,7 @@ class App extends Component {
     console.log('post sent');
     console.log(this.state.input);
   
-    fetch('http://localhost:3000/api', {
+    fetch('http://localhost:3000/url', {
         method: 'post',
         headers: {
           'Content-type': 'application/JSON'
@@ -46,8 +46,7 @@ class App extends Component {
   }
 
   checkAccount = () => {
-    
-    fetch('http://localhost:3000/emailcheck', {
+    fetch('http://localhost:3000/email', {
       method: 'post',
       headers: {
         'Content-type': 'application/JSON'
@@ -58,7 +57,7 @@ class App extends Component {
     })
     .then(response => response.json())
     .then(data => console.log(this.setState({ emailData: data })))
-    .catch(err => console.log(err));
+    .catch(err => console.log("Error front end", err));
     this.setState({ reportState: 'email' })
   }
 
@@ -69,6 +68,7 @@ class App extends Component {
 
   consoleVT = (e) => {
     console.log(this.state.reportState);
+    console.log(this.state.emailData);
   }
 
 

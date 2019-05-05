@@ -56,7 +56,15 @@ class App extends Component {
       })
     })
     .then(response => response.json())
-    .then(data => console.log(this.setState({ emailData: data })))
+    .then((data) => {
+      if (data.length > 0) {
+        console.log("account breached!")
+        this.setState({ emailData: data })
+      } else {
+        console.log("account not breached!")
+        this.setState({ emailData: { Account: "Not Breached!" }})    
+      }
+    })
     .catch(err => console.log("Error front end", err));
     this.setState({ reportState: 'email' })
   }
@@ -67,8 +75,9 @@ class App extends Component {
   }
 
   consoleVT = (e) => {
-    console.log(this.state.reportState);
-    console.log(this.state.emailData);
+    console.log("current state: ", this.state.reportState);
+    console.log("email data", this.state.emailData);
+    console.log("url data", this.state.vtData);
   }
 
 

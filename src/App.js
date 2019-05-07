@@ -17,19 +17,16 @@ class App extends Component {
       vtData: [],
       email: '',
       emailData: [],
-      reportState: ''
+      reportState: '',
+      password: ''
     }
   }
 
-  onInputChange = (e) => {
-    this.setState({ input: e.target.value})
-  }
+ 
 
-  onButtonSubmit = () => {
+  onURLSubmit = () => {
     this.setState({ inputURL: this.state.input })
-    console.log('post sent');
-    console.log(this.state.input);
-  
+    
     fetch('http://localhost:3000/url', {
         method: 'post',
         headers: {
@@ -45,7 +42,8 @@ class App extends Component {
       this.setState({ reportState: 'url' })
   }
 
-  checkAccount = () => {
+  onAccountSubmit = () => {
+    
     fetch('http://localhost:3000/email', {
       method: 'post',
       headers: {
@@ -58,10 +56,8 @@ class App extends Component {
     .then(response => response.json())
     .then((data) => {
       if (data.length > 0) {
-        console.log("account breached!")
         this.setState({ emailData: data })
       } else {
-        console.log("account not breached!")
         this.setState({ emailData: { Account: "Not Breached!" }})    
       }
     })
@@ -69,15 +65,39 @@ class App extends Component {
     this.setState({ reportState: 'email' })
   }
 
-  accountChange = (e) => {
-    this.setState({email: e.target.value })
+  onPasswordSubmit = () => {
     
+    fetch('http://localhost:3000/pass', {
+      method: 'post',
+      headers: {
+        'Content-type': 'application/JSON'
+      },
+      body: JSON.stringify({
+        input: this.state.password
+      })
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(err => console.log("error", err));
+  }
+
+  onAccountChange = (e) => {
+    this.setState({email: e.target.value })
+  }
+
+  onPasswordChange = (e) => {
+    this.setState({password: e.target.value})
+  }
+
+  onInputChange = (e) => {
+    this.setState({input: e.target.value})
   }
 
   consoleVT = (e) => {
     console.log("current state: ", this.state.reportState);
     console.log("email data", this.state.emailData);
     console.log("url data", this.state.vtData);
+    console.log('email address', this.state.email);
   }
 
 
@@ -86,16 +106,18 @@ class App extends Component {
       <div>
         <Title />
         <ScannerForm 
-          
+          onPasswordChange={this.onPasswordChange}
+          onPasswordSubmit={this.onPasswordSubmit}
           onInputChange={this.onInputChange} 
-          onButtonSubmit={this.onButtonSubmit}
-          accountChange={this.accountChange}
-          checkAccount={this.checkAccount}/>
+          onURLSubmit={this.onURLSubmit}
+          onAccountChange={this.onAccountChange}
+          onAccountSubmit={this.onAccountSubmit}/>
         <div>
           
         </div>
         <div>
           <button onClick={ this.consoleVT }>check VT</button>
+
           <Report vtData={this.state.vtData} emailData={this.state.emailData} reportState={this.state.reportState}/>
         </div>
       </div>

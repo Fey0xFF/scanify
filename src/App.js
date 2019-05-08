@@ -3,6 +3,7 @@ import './App.css';
 import Title from './components/Title';
 import ScannerForm from './components/ScannerForm';
 import Report from './components/Report';
+
 // import ReportItem from './components/ReportItem';
 // import { SyncBailHook } from 'tapable';
 
@@ -76,7 +77,7 @@ class App extends Component {
         input: this.state.password
       })
     })
-    .then(response => response.json())
+    .then(response => response.text())
     .then(data => console.log(data))
     .catch(err => console.log("error", err));
   }

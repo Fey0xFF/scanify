@@ -19,15 +19,16 @@ class App extends Component {
       email: '',
       emailData: [],
       reportState: '',
-      password: ''
+      password: '',
+      passwordData: {}
     }
   }
 
  
 
   onURLSubmit = () => {
+    this.setState({ reportState: 'url' })
     this.setState({ inputURL: this.state.input })
-    
     fetch('http://localhost:3000/url', {
         method: 'post',
         headers: {
@@ -40,11 +41,10 @@ class App extends Component {
       .then(response => response.json())
       .then(data => this.setState({ vtData: Object.entries(data.scans) }))
       .catch(err => console.log(err));
-      this.setState({ reportState: 'url' })
   }
 
   onAccountSubmit = () => {
-    
+    this.setState({ reportState: 'email' })
     fetch('http://localhost:3000/email', {
       method: 'post',
       headers: {
@@ -63,11 +63,10 @@ class App extends Component {
       }
     })
     .catch(err => console.log("Error front end", err));
-    this.setState({ reportState: 'email' })
   }
 
   onPasswordSubmit = () => {
-    
+    this.setState({ reportState: 'password' })
     fetch('http://localhost:3000/pass', {
       method: 'post',
       headers: {
@@ -77,8 +76,8 @@ class App extends Component {
         input: this.state.password
       })
     })
-    .then(response => response.text())
-    .then(data => console.log(data))
+    .then(response => response.json())
+    .then(data => this.setState({ passwordData: data }))
     .catch(err => console.log("error", err));
   }
 
@@ -99,6 +98,7 @@ class App extends Component {
     console.log("email data", this.state.emailData);
     console.log("url data", this.state.vtData);
     console.log('email address', this.state.email);
+    console.log('passwordData', this.state.passwordData);
   }
 
 
